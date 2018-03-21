@@ -2113,7 +2113,7 @@ class GUMP
      *
      * @return mixed
      *
-     * Examples:
+     * Examples: '/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i'
      *
      *  555-555-5555: valid
      *  5555425555: valid
@@ -2122,6 +2122,11 @@ class GUMP
      *  1 (519) 555-4422: valid
      *  1-555-555-5555: valid
      *  1-(555)-555-5555: valid
+     * 
+     * Examples change number phone Colombia _dd: 
+     *  0353812345 : valid (indicative+phone)
+     *  3812345 : valid (phone)
+     *  3001234567 : valid (cellphone)
      */
     protected function validate_phone_number($field, $input, $param = null)
     {
@@ -2129,7 +2134,7 @@ class GUMP
             return;
         }
 
-        $regex = '/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i';
+        $regex = '/^(\d{10}|\d{7})$/i';
         if (!preg_match($regex, $input[$field])) {
             return array(
               'field' => $field,
